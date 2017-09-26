@@ -105,9 +105,8 @@ function openbrowser(){
 }
 function createtunnel(){
   case $hwid in
-         hp)
-	 
-          sudo ssh -p $port_gateway_SSH -L $localIP:22:$remoteIP:22 \
+         hp)	 
+          ssh -p $port_gateway_SSH -L $localIP:22:$remoteIP:22 \
              -L $localIP:23:$remoteIP:23 -L $localIP:80:$remoteIP:80\
              -L $localIP:443:$remoteIP:443  -L $localIP:3389:$remoteIP:3389\
              -L $localIP:17988:$remoteIP:17988  -L $localIP:9300:$remoteIP:9300\
@@ -115,14 +114,14 @@ function createtunnel(){
              $username@$ip_gateway_SSH
              ;;
          huawei)
-           sudo ssh -p $port_gateway_SSH -L $localIP:22:$remoteIP:22 \
+          ssh -p $port_gateway_SSH -L $localIP:22:$remoteIP:22 \
              -L $localIP:23:$remoteIP:23 -L $localIP:80:$remoteIP:80 \
              -L $localIP:443:$remoteIP:443  -L $localIP:2198:$remoteIP:2198 \
              -L $localIP:2199:$remoteIP:2199 -L $localIP:8208:$remoteIP:8208 \
              $username@$ip_gateway_SSH
              ;;
          lenovo)
-           sudo ssh -p $port_gateway_SSH -L $localIP:22:$remoteIP:22 \
+          ssh -p $port_gateway_SSH -L $localIP:22:$remoteIP:22 \
              -L $localIP:23:$remoteIP:23 -L $localIP:80:$remoteIP:80\
              -L $localIP:443:$remoteIP:443  -L $localIP:3900:$remoteIP:3900\
              $username@$ip_gateway_SSH
