@@ -78,20 +78,30 @@ function get_parameters(){
 }
 function addIP(){
   if [ $(uname) == 'Darwin' ]; then
-  sudo ipconfig set lo0 MANUAL $localIP
+     sudo ipconfig set lo0 MANUAL $localIP
   elif [ $(uname) == 'Linux' ];then
-  sudo ip addr add $localIP/32 dev lo
+     sudo ip addr add $localIP/32 dev lo
+  elif [ $(uname) == 'CYGWIN_NT-10.0-WOW' ];then
+     netsh interface ipv4 add address "Loopback Pseudo-Interface 1" $localIP
   fi
 }
 function delIP(){
   if [ $(uname) == 'Darwin' ]; then
-    sudo ipconfig set lo0 NONE localIP
+     sudo ipconfig set lo0 NONE localIP
   elif [ $(uname) == 'Linux' ];then
-    sudo ip addr del $localIP/32 dev lo
+     sudo ip addr del $localIP/32 dev lo
+  elif [ $(uname) == 'CYGWIN_NT-10.0-WOW' ];then
+    netsh interface ipv4 delete address "Loopback Pseudo-Interface 1" $localIP
   fi
 }
 function openbrowser(){
-     $browser_path -new-window http://$localIP &
+  if [ $(uname) == 'Darwin' ]; then
+    $browser_path -new-window http://$localIP &
+  elif [ $(uname) == 'Linux' ];then
+    $browser_path -new-window http://$localIP &
+  elif [ $(uname) == 'CYGWIN_NT-10.0-WOW' ];then
+    $browser_path_windows https://$localIP &
+  fi
 }
 function createtunnel(){
   case $hwid in
@@ -124,7 +134,7 @@ if [ "$localIP" != "127.0.0.1" ]; then
   echo [INFO] Add IP in loopback interface.
   addIP
 fi
-if [ browser == 'open' ]; then
+if [ "$browser" == 'open' ]; then
   echo [INFO] OPEN A COMPATIBLE BROWSER
   openbrowser
 fi
